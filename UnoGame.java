@@ -14,14 +14,14 @@ public class UnoGame extends Game{
     private ArrayList<ArrayList<UnoCard>> playerHand;
     boolean gameDirection ;
     ArrayList<String> playersName= PlayerFactory.playersName;
-
+    List<UnoPlayer>  players;
 
     @Override
     public void play() {
         Scanner input = new Scanner(System.in);
         System.out.println("Enter Number of Player");
         int numberOfPlayer = input.nextInt();
-        List<UnoPlayer>  players = PlayerFactory.createPlayer(numberOfPlayer);
+          players = PlayerFactory.createPlayer(numberOfPlayer);
 
         UnoCard card = deck.drawCard();
         validColor= card.getColor();
@@ -30,12 +30,27 @@ public class UnoGame extends Game{
         if(card.getValue() == UnoCard.Value.wild){
             play();
         }
-        if(card.getValue() == UnoCard.Value.skip){
+        if(card.getValue() == UnoCard.Value.wild_draw_four || card.getValue() == Card.Value.draw_two){
             play();
         }
         if(card.getValue() == UnoCard.Value.skip){
+             if(gameDirection ==  false) {
+                 currentPlayer = (currentPlayer + 1) % players.size();
+             } else {
+                 currentPlayer = (currentPlayer-1) % players.size();
+                 if(currentPlayer ==-1){
+                     currentPlayer = players.size()-1;
+                 }
+             }
+        }
+
+        if(card.getValue() == Card.Value.reverse){
+            System.out.println(playersName.get(currentPlayer) + "the game direction changed");
+            gameDirection ^= true; //  doing a xor
+            currentPlayer = players.size() -1 ;
 
         }
+
 
     }
 
@@ -58,5 +73,21 @@ public class UnoGame extends Game{
             ArrayList<UnoCard> hand = new ArrayList<UnoCard>(Arrays.asList(deck.drawCard(7)));
             playerHand.add(hand);
         }
+
+    }
+
+    public UnoPlayer getPreviousPlayer(int i){
+        int index = this.currentPlayer -i ;
+        if(index == -1){
+            index = players.size()-1;
+
+        }
+        return this.players.get(index);
+    }
+
+    public ArrayList<UnoCard> getPlayerHand(String player){
+
+        int index = Arrays.asList(this.players).indexOf(player);
+        return playerHand.get(index);
     }
 }

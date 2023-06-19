@@ -2,17 +2,14 @@ import java.util.ArrayList;
 
 public class UnoPlayer extends Player{
 
-    private String playerName;
+
+    ArrayList<Card> hand;
     private int score;
     private ArrayList<ArrayList<UnoCard>> playerHand;
     public UnoPlayer(String playerName) {
-        this.playerName = playerName;
-        score = 0 ;
+        super();
+        this.playerName= playerName;
     }
-    public UnoPlayer(){
-
-    }
-
 
     @Override
     public void playCard() {
@@ -29,4 +26,10 @@ public class UnoPlayer extends Player{
 
         return playerName;
     }
+
+    @Override
+    public boolean isWin(){
+        return hand.size() ==0;
+    }
+
 }
