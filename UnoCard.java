@@ -1,24 +1,50 @@
 
-    public class UnoCard extends Card{
+    public class UnoCard {
+
+        public UnoCard(Color color, Value zero) {
+        }
+
+        enum Color {
+            red, blue , green, yellow;
+        }
+        enum Value {
+            zero, one, two, three, four, five, six, seven, eight, nine;
+
+            private static Value[] values = Value.values();
+
+            public static Value getValues(int i) {
+                return values[i];
+            }
+        }
+            enum Wild{
+                wild, wild_draw_four;
+            }
+            enum Action{
+                skip , reverse , draw_two;
+            }
 
 
+        protected   Color color;
+        protected   Value value;
+        public UnoCard(CardPlayStrategy playStrategy) {
+            this.playStrategy = playStrategy;
+        }
+        public void play(UnoPlayer player) {
+            playStrategy.playCard(player, this);
+        }
+        private CardPlayStrategy playStrategy;
 
-        private final Card.Color color;
-        private final Card.Value value;
-
-        public UnoCard(Color color, Value value){
-            this.color = color;
-            this.value = value;
+        public void setPlayStrategy(CardPlayStrategy playStrategy) {
+            this.playStrategy = playStrategy;
         }
 
 
-        @Override
-        public Card.Color getColor(){
+        public UnoCard.Color getColor(){
             return this.color;
         }
 
-        @Override
-        public Card.Value getValue(){
+
+        public UnoCard.Value getValue(){
             return this.value;
         }
 

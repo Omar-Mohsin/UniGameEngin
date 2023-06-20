@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -12,31 +13,33 @@ public class Deck {
         cards = new UnoCard[108];
     }
 
-    public void rest () {
-    UnoCard.Color[] colors =  UnoCard.Color.values();
+    public void initializeDeck () {
+        UnoCard.Color[] colors =  UnoCard.Color.values();
         cardsInDeck = 0;
 
         for (int i = 0; i < colors.length; i++) {
             UnoCard. Color color = colors[i];
 
-            cards[cardsInDeck++] = new UnoCard(color, UnoCard.Value.getValues(0));
+            cards[cardsInDeck++] = new UnoCard(color, UnoCard.Value.zero);
 
             for (int j = i; j < 10; j++) {
                 cards[cardsInDeck++] = new UnoCard(color, UnoCard.Value.getValues(j));
             }
         }
 
-        UnoCard.Value[] values = {UnoCard.Value.wild, UnoCard.Value.wild_draw_four};
-        for (UnoCard.Value value : values) {
+        UnoCard.Wild[] actions = {UnoCard.Wild.wild, UnoCard.Wild.wild_draw_four};
+        for (UnoCard.Wild wilds : actions) {
             for (int i = 0; i < 4; i++) {
-                cards[cardsInDeck++] = new UnoCard(UnoCard.Color.wild, value);
+                cards[cardsInDeck++] = new WildCard(UnoCard.Wild.wild);
             }
 
         }
     }
 
+
+
     public void shuffle() {
-        Collections.shuffle(List.of(cards));
+        Collections.shuffle(Collections.singletonList(cards));
     }
     public boolean isEmpty () {
         return cardsInDeck == 0;

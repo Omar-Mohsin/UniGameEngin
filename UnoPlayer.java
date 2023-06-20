@@ -3,7 +3,6 @@ import java.util.Scanner;
 
 public class UnoPlayer{
 
-
     String playerName;
     ArrayList<UnoCard> playerHand;
     private int score;
@@ -27,7 +26,6 @@ public class UnoPlayer{
         for (int i = 0; i < playerHand.size(); i++) {
             System.out.println(i + ": " + playerHand.get(i));
         }
-
         Scanner scanner = new Scanner(System.in);
         int index = scanner.nextInt();
         scanner.nextLine();
@@ -54,7 +52,9 @@ public class UnoPlayer{
     public int getScore(){
         return score;
     }
-
+    public ArrayList<UnoCard> getHand() {
+        return playerHand;
+    }
 
     public boolean isWon(){
         return playerHand.size() ==0;

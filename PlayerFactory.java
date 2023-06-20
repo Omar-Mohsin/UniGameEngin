@@ -16,6 +16,8 @@ public class PlayerFactory {
                 players.add(new UnoPlayer(playerName));
                 playersName.add(playerName);
             }
+        }else {
+            System.out.println("invalid number of players");
         }
         return players;
     }

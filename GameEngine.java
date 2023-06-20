@@ -1,9 +1,11 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
 public class GameEngine {
     private List<UnoPlayer> players;
+    ArrayList<ArrayList<UnoCard>> playerHand;
     private int currentPlayerIndex;
     private Deck deck;
     private GameState gameState;
@@ -11,7 +13,7 @@ public class GameEngine {
     public GameEngine() {
         players = new ArrayList<>();
         currentPlayerIndex = 0;
-        deck = new Deck();
+       deck = new Deck();
         gameState = new GameState();
     }
     public void run() {
@@ -29,7 +31,7 @@ public class GameEngine {
 
             processInput(currentPlayer, input);
 
-            update();
+
 
             if (currentPlayer.isWon()) {
                 System.out.println("Player " + currentPlayer.getPlayerName() + " wins!");
@@ -43,7 +45,7 @@ public class GameEngine {
         }
     }
 
-    private void initialize() {
+    void initialize() {
         System.out.println("Welcome to the Uno game!");
 
         Scanner input = new Scanner(System.in);
@@ -51,10 +53,10 @@ public class GameEngine {
         int numberOfPlayer = input.nextInt();
         players = PlayerFactory.createPlayer(numberOfPlayer);
 
+        deck.initializeDeck();
         deck.shuffle();
         dealCards();
     }
-
     private void dealCards() {
         for (UnoPlayer player : players) {
             for (int i = 0; i < 7; i++) {
@@ -106,8 +108,39 @@ public class GameEngine {
         System.out.println("Player " + currentPlayer.getPlayerName() + " drew a card: " + drawnCard);
     }
 
-    private void update() {
-        // Update any other game state as needed
+    private void endGame() {
+        // final scores
+        System.out.println("Final scores:");
+        for (UnoPlayer player : players) {
+            System.out.println(player.getPlayerName() + ": " + player.getScore());
+        }
+
+        // Determine the winner
+        UnoPlayer winner = null;
+        int maxScore = 0;
+        for (UnoPlayer player : players) {
+            if (player.getScore() > maxScore) {
+                maxScore = player.getScore();
+                winner = player;
+            }
+        }
+
+        // The winner
+        System.out.println("The winner is: " + winner.getPlayerName());
+
     }
+    private int calculateScore(UnoPlayer player) {
+        int score = 0;
+        for (UnoCard card : player.getHand()) {
+            score += getCardValue(card);
+        }
+        return score;
+    }
+    private int getCardValue(UnoCard card) {
+     return 10;
+    }
+
+
+
 }
 

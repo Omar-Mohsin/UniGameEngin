@@ -1,3 +1,4 @@
+/*
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,12 +9,12 @@ public class UnoGameRules {
 
     boolean gameDirection;
     Deck deck;
-    Card card = deck.drawCard();
+    UnoCard card = deck.drawCard();
     List<UnoPlayer> players;
     ArrayList<String> playersName;
 
 
-    public UnoGameRules(Card card, int currentPlayer, List<UnoPlayer> players, boolean gameDirection, ArrayList<String> playersName) {
+    public UnoGameRules(UnoCard card, int currentPlayer, List<UnoPlayer> players, boolean gameDirection, ArrayList<String> playersName) {
 
         this.currentPlayer = currentPlayer;
         this.gameDirection = gameDirection;
@@ -27,7 +28,7 @@ public class UnoGameRules {
         if (card.getValue() == UnoCard.Value.wild) {
 
         }
-        if (card.getValue() == Card.Value.wild_draw_four || card.getValue() == Card.Value.draw_two) {
+        if (card.getValue() == UnoCard.Value.wild_draw_four || card.getValue() == UnoCard.Value.draw_two) {
 
         }
         if (card.getValue() == UnoCard.Value.skip) {
@@ -41,7 +42,7 @@ public class UnoGameRules {
             }
         }
 
-        if (card.getValue() == Card.Value.reverse) {
+        if (card.getValue() == UnoCard.Value.reverse) {
             System.out.println(playersName.get(currentPlayer) + "the game direction changed");
             gameDirection ^= true; //  doing a xor
             currentPlayer = players.size() - 1;
@@ -65,3 +66,4 @@ public class UnoGameRules {
         }
     }
 }
+*/

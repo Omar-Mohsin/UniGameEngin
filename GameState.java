@@ -6,11 +6,17 @@ public class GameState {
     private UnoCard.Color currentColor;
     private List<UnoCard> discardedCards;
 
+
     public GameState() {
         discardedCards = new ArrayList<>();
     }
 
-    public Card getCurrentCard() {
+
+    public void discardCard(UnoCard card) {
+        discardedCards.add(card);
+    }
+
+    public UnoCard getCurrentCard() {
         return currentCard;
     }
 
@@ -18,16 +24,12 @@ public class GameState {
         currentCard = card;
     }
 
-    public Card.Color getCurrentColor() {
+    public UnoCard.Color getCurrentColor() {
         return currentColor;
     }
 
-    public void setCurrentColor(Card.Color color) {
+    public void setCurrentColor(UnoCard.Color color) {
         currentColor = color;
-    }
-
-    public void discardCard(UnoCard card) {
-        discardedCards.add(card);
     }
 
     public boolean isCardValid(UnoCard card) {
@@ -37,6 +39,5 @@ public class GameState {
         return false;
     }
 
-    // Add any additional methods or logic as needed
 }
 

@@ -1,3 +1,4 @@
+/*
 import java.io.InvalidClassException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -6,18 +7,43 @@ import java.util.Scanner;
 
 
 public class UnoGame extends Game{
+    private GameEngine gameEngine;
+    // Other necessary properties
 
-    private UnoCard.Color validColor ;
-    private UnoCard.Value validValue;
-    UnoGameRules gameRules;
-    private  int currentPlayer;
-    private  Deck deck;
-    private ArrayList<ArrayList<UnoCard>> playerHand;
-    boolean gameDirection ;
-    ArrayList<String> playersName= PlayerFactory.playersName;
-    List<UnoPlayer>  players;
+    public void play() {
+        // Instantiate necessary objects
+        Deck deck = new Deck();
+        List<UnoPlayer> players = PlayerFactory.createPlayer();
+        gameEngine = new GameEngine(players);
 
+        // Set up initial game state
+        deck.shuffle();
+        dealCards(deck, players);
+        int startingPlayerIndex = selectStartingPlayer(players);
+        gameEngine.setCurrentPlayerIndex(startingPlayerIndex);
 
+        // Enter game loop
+        boolean gameEnd = false;
+        while (!gameEnd) {
+            UnoPlayer currentPlayer = gameEngine.getCurrentPlayer();
+
+            // Prompt current player for their action
+            // Handle player input accordingly
+            // ...
+
+            // Check for winning condition
+            if (currentPlayer()) {
+                System.out.println(currentPlayer.getName() + " wins!");
+                gameEnd = true;
+            }
+
+            // Update the game state
+            gameEngine.moveToNextPlayer();
+        }
+
+        // Game ends, perform necessary cleanup or final actions
+        // ...
+    }
     @Override
     public void play() {
         Scanner input = new Scanner(System.in);
@@ -65,33 +91,39 @@ public class UnoGame extends Game{
         return this.players.get(index);
     }
 
-    public ArrayList<UnoCard> getPlayerHand(String player){
+  */
+/*  public ArrayList<UnoCard> getPlayerHand(String player){
 
         int index = Arrays.asList(this.players).indexOf(player);
         return playerHand.get(index);
-    }
+    }*//*
 
-    public UnoCard getPlayerCard(String player, int choice){
+
+    */
+/*public UnoCard getPlayerCard(String player, int choice){
 
         ArrayList<UnoCard> hand  = getPlayerHand(player);
         return hand.get(choice);
 
-    }
+    }*//*
 
-    public boolean hasEmptyHand(String player){
+
+   */
+/* public boolean hasEmptyHand(String player){
         return getPlayerHand(player).isEmpty();
-    }
+    }*//*
 
-    public boolean validCardPlay(UnoCard card){
-        return card.getColor() == validColor || card.getValue() == validValue;
-    }
-    public void checkPlayerTurn(String player) throws Exception {
+
+  */
+/*  public void checkPlayerTurn(String player) throws Exception {
         if(this.players.get(this.currentPlayer).equals(player)){
             throw new Exception("its not your turn" + player);
         }
-    }
+    }*//*
 
-    public void submitDraw (String player) throws Exception {
+
+   */
+/* public void submitDraw (String player) throws Exception {
         checkPlayerTurn(player);
         if(deck.isEmpty()){
             deck.shuffle();
@@ -107,7 +139,9 @@ public class UnoGame extends Game{
             }
         }
     }
-    public void setCardColor(Card.Color color){
+    public void setCardColor(UnoCard.Color color){
         validColor = color;
-    }
+    }*//*
+
 }
+*/
