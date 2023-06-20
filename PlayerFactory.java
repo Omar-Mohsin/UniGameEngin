@@ -9,7 +9,7 @@ public class PlayerFactory {
      public static ArrayList<String> playersName = new ArrayList<>();
     public static List<UnoPlayer> createPlayer(int numOfPlayers) {
 
-        if (numOfPlayers >= 2 && numOfPlayers <= 10) {
+        if (isValid(numOfPlayers)) {
             for (int i = 0; i < numOfPlayers; i++) {
                 System.out.print("Enter the name of player " + (i + 1) + ": ");
                 String playerName = input.nextLine();
@@ -18,5 +18,13 @@ public class PlayerFactory {
             }
         }
         return players;
+    }
+
+    public static boolean isValid(int numberOfPlayers){
+        if (numberOfPlayers >= 2 && numberOfPlayers <= 10){
+            return true;
+        } else {
+            return false;
+        }
     }
 }

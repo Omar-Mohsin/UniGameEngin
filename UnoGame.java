@@ -1,3 +1,4 @@
+import java.io.InvalidClassException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -8,13 +9,14 @@ public class UnoGame extends Game{
 
     private UnoCard.Color validColor ;
     private UnoCard.Value validValue;
-
+    UnoGameRules gameRules;
     private  int currentPlayer;
     private  Deck deck;
     private ArrayList<ArrayList<UnoCard>> playerHand;
     boolean gameDirection ;
     ArrayList<String> playersName= PlayerFactory.playersName;
     List<UnoPlayer>  players;
+
 
     @Override
     public void play() {
@@ -27,29 +29,7 @@ public class UnoGame extends Game{
         validColor= card.getColor();
         validValue = card.getValue();
 
-        if(card.getValue() == UnoCard.Value.wild){
-            play();
-        }
-        if(card.getValue() == UnoCard.Value.wild_draw_four || card.getValue() == Card.Value.draw_two){
-            play();
-        }
-        if(card.getValue() == UnoCard.Value.skip){
-             if(gameDirection ==  false) {
-                 currentPlayer = (currentPlayer + 1) % players.size();
-             } else {
-                 currentPlayer = (currentPlayer-1) % players.size();
-                 if(currentPlayer ==-1){
-                     currentPlayer = players.size()-1;
-                 }
-             }
-        }
-
-        if(card.getValue() == Card.Value.reverse){
-            System.out.println(playersName.get(currentPlayer) + "the game direction changed");
-            gameDirection ^= true; //  doing a xor
-            currentPlayer = players.size() -1 ;
-
-        }
+         gameRules  = new UnoGameRules(card  , currentPlayer, players , gameDirection, playersName);
 
 
     }
@@ -89,5 +69,45 @@ public class UnoGame extends Game{
 
         int index = Arrays.asList(this.players).indexOf(player);
         return playerHand.get(index);
+    }
+
+    public UnoCard getPlayerCard(String player, int choice){
+
+        ArrayList<UnoCard> hand  = getPlayerHand(player);
+        return hand.get(choice);
+
+    }
+
+    public boolean hasEmptyHand(String player){
+        return getPlayerHand(player).isEmpty();
+    }
+
+    public boolean validCardPlay(UnoCard card){
+        return card.getColor() == validColor || card.getValue() == validValue;
+    }
+    public void checkPlayerTurn(String player) throws Exception {
+        if(this.players.get(this.currentPlayer).equals(player)){
+            throw new Exception("its not your turn" + player);
+        }
+    }
+
+    public void submitDraw (String player) throws Exception {
+        checkPlayerTurn(player);
+        if(deck.isEmpty()){
+            deck.shuffle();
+        }
+        getPlayerHand(player).add(deck.drawCard());
+        if(gameDirection == false){
+            currentPlayer = (currentPlayer+1)% players.size();
+
+        } else {
+            currentPlayer = (currentPlayer-1)% players.size();
+            if(currentPlayer == -1){
+                currentPlayer = players.size()-1;
+            }
+        }
+    }
+    public void setCardColor(Card.Color color){
+        validColor = color;
     }
 }

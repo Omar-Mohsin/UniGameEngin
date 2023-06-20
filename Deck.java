@@ -1,3 +1,5 @@
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 
@@ -7,7 +9,7 @@ public class Deck {
     private int cardsInDeck;
 
     public Deck() {
-        cards = new UnoCard[180];
+        cards = new UnoCard[108];
     }
 
     public void rest () {
@@ -34,17 +36,7 @@ public class Deck {
     }
 
     public void shuffle() {
-        int cardLength = cards.length;
-        Random random = new Random();
-
-        for (int i = 0; i < cardLength; i++) {
-
-            int randomValue = i + random.nextInt(cardLength - i);
-            UnoCard randomCard = cards[randomValue];
-            cards[randomValue] = cards[i];
-            cards[i] = randomCard;
-        }
-
+        Collections.shuffle(List.of(cards));
     }
     public boolean isEmpty () {
         return cardsInDeck == 0;
