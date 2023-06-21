@@ -14,7 +14,7 @@ public class GameEngine {
         players = new ArrayList<>();
         currentPlayerIndex = 0;
        deck = new Deck();
-        gameState = new GameState();
+
     }
     public void play() {
         initialize();
@@ -95,11 +95,18 @@ public class GameEngine {
 
     private void playCard(UnoPlayer currentPlayer) {
             UnoCard cardToPlay =  currentPlayer.selectCardToPlay();  // flag while loop
+            gameState = new GameState(cardToPlay);
         if (cardToPlay != null) {
             if (gameState.isCardValid(cardToPlay)) {
                 currentPlayer.playCard(cardToPlay);
                 gameState.setCurrentCard(cardToPlay);
                 gameState.setCurrentColor(cardToPlay.getColor());
+                if(UnoCard.Action.draw_two.equals(cardToPlay)){
+                    UnoPlayer nextPlayer = getNextPlayer(currentPlayer);
+                    drawCardsFromDeck(nextPlayer, 2);
+                    System.out.println(nextPlayer.getPlayerName() + " drew 2 cards.");
+                }
+                System.out.println("Player " + currentPlayer.getPlayerName() + " throw a card: " + cardToPlay);
             } else {
                 System.out.println("Invalid card. Try again.");
             }
@@ -112,6 +119,11 @@ public class GameEngine {
         UnoCard drawnCard = deck.drawCard();
         currentPlayer.drawCard(drawnCard);
         System.out.println("Player " + currentPlayer.getPlayerName() + " drew a card: " + drawnCard);
+    }
+    private UnoPlayer getNextPlayer(UnoPlayer currentPlayer) {
+        int currentPlayerIndex = players.indexOf(currentPlayer);
+        int nextPlayerIndex = (currentPlayerIndex + 1) % players.size();
+        return players.get(nextPlayerIndex);
     }
 
     private void endGame() {
@@ -144,6 +156,18 @@ public class GameEngine {
     }
     private int getCardValue(UnoCard card) {
      return 10;
+    }
+
+    private void drawCardsFromDeck(UnoPlayer player, int numCards) {
+        for (int i = 0; i < numCards; i++) {
+            UnoCard drawnCard = deck.drawCard();
+            if (drawnCard != null) {
+                player.drawCard(drawnCard);
+            } else {
+                System.out.println("No more cards in the deck!");
+                break;
+            }
+        }
     }
 
 

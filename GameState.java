@@ -7,8 +7,9 @@ public class GameState {
     private List<UnoCard> discardedCards;
 
 
-    public GameState() {
+    public GameState(UnoCard card) {
         discardedCards = new ArrayList<>();
+        currentCard = card;
     }
 
 
@@ -33,7 +34,7 @@ public class GameState {
     }
 
     public boolean isCardValid(UnoCard card) {
-        return true;
+        return card.getColor().equals(currentColor) || card.getValue().equals(currentCard.getValue());
     }
 
 }

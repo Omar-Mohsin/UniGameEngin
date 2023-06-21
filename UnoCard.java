@@ -1,5 +1,6 @@
+import java.util.Objects;
 
-    public class UnoCard {
+public class UnoCard {
 
         public UnoCard(Color color, Action action) {
             this.color =  color;
@@ -61,9 +62,6 @@
         }
         private CardPlayStrategy playStrategy;
 
-        public void setPlayStrategy(CardPlayStrategy playStrategy) {
-            this.playStrategy = playStrategy;
-        }
 
 
         public UnoCard.Color getColor(){
@@ -106,6 +104,19 @@
             s+= ConsoleColor.ANSI_RESET;
             return s;
         }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UnoCard unoCard = (UnoCard) o;
+        return color == unoCard.color && value == unoCard.value && action == unoCard.action && wild == unoCard.wild && Objects.equals(playStrategy, unoCard.playStrategy);
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(color, value, action, wild, playStrategy);
+    }
+}
 
 
