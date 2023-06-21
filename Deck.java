@@ -1,7 +1,5 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 
 public class Deck {
@@ -18,28 +16,40 @@ public class Deck {
         cardsInDeck = 0;
 
         for (int i = 0; i < colors.length; i++) {
-            UnoCard. Color color = colors[i];
+            UnoCard.Color color = UnoCard.Color.getColors(i);
 
             cards[cardsInDeck++] = new UnoCard(color, UnoCard.Value.zero);
 
-            for (int j = i; j < 10; j++) {
+            for (int j = 1; j < 10; j++) {
+                cards[cardsInDeck++] = new UnoCard(color, UnoCard.Value.getValues(j));
                 cards[cardsInDeck++] = new UnoCard(color, UnoCard.Value.getValues(j));
             }
-        }
+            for (int j =0; j <3;j++){
+                cards[cardsInDeck++] = new UnoCard(color, UnoCard.Action.getActions(j));
 
-        UnoCard.Wild[] actions = {UnoCard.Wild.wild, UnoCard.Wild.wild_draw_four};
-        for (UnoCard.Wild wilds : actions) {
+                cards[cardsInDeck++] = new UnoCard(color, UnoCard.Action.getActions(j));
+
+            }
+        }
             for (int i = 0; i < 4; i++) {
                 cards[cardsInDeck++] = new WildCard(UnoCard.Wild.wild);
+                cards[cardsInDeck++] = new WildCard(UnoCard.Wild.wild_draw_four);
+
             }
 
-        }
+
     }
 
-
-
     public void shuffle() {
-        Collections.shuffle(Collections.singletonList(cards));
+
+        Random rnd = ThreadLocalRandom.current();
+        for (int i = cards.length - 1; i > 0; i--)
+        {
+            int index = rnd.nextInt(i + 1);
+            UnoCard a = cards[index];
+            cards[index] = cards[i];
+            cards[i] = a;
+        }
     }
     public boolean isEmpty () {
         return cardsInDeck == 0;
@@ -70,7 +80,13 @@ public class Deck {
             ret[i] = cards[--cardsInDeck];
         }
         return ret;
-    } // it will change later
+    }
 
-
+    @Override
+    public String toString() {
+        return "Deck{" +
+                "cards=" + Arrays.toString(cards) +
+                ", cardsInDeck=" + cardsInDeck +
+                '}';
+    }
 }

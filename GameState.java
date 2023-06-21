@@ -9,6 +9,7 @@ public class GameState {
 
     public GameState() {
         discardedCards = new ArrayList<>();
+
     }
 
 
@@ -33,8 +34,8 @@ public class GameState {
     }
 
     public boolean isCardValid(UnoCard card) {
-        if (card.getColor() == currentColor || card.getValue() == currentCard.getValue()) {
-            return true;
+        if (currentColor != null && currentCard != null) {
+            return card.getColor().equals(currentColor) || card.getValue().equals(currentCard.getValue());
         }
         return false;
     }

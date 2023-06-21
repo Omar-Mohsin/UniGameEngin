@@ -9,6 +9,7 @@ public class UnoPlayer{
     public UnoPlayer(String playerName) {
         score = 0;
         this.playerName= playerName;
+        playerHand = new ArrayList<>();
     }
 
     public void sayUno() {

@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class GameEngine {
     private List<UnoPlayer> players;
-    ArrayList<ArrayList<UnoCard>> playerHand;
+
     private int currentPlayerIndex;
     private Deck deck;
     private GameState gameState;
@@ -54,6 +54,7 @@ public class GameEngine {
         players = PlayerFactory.createPlayer(numberOfPlayer);
 
         deck.initializeDeck();
+        System.out.println(deck);
         deck.shuffle();
         dealCards();
     }
@@ -70,7 +71,7 @@ public class GameEngine {
         System.out.println("--------------------------------------------------");
         for (UnoPlayer player : players) {
             System.out.println("Player: " + player.getPlayerName());
-            System.out.println("Hand: " + player.getPlayerName());
+            System.out.println("Hand: " + player.playerHand);
             System.out.println();
         }
         System.out.println("Deck: " + deck);
@@ -88,7 +89,7 @@ public class GameEngine {
     }
 
     private void playCard(UnoPlayer currentPlayer) {
-            UnoCard cardToPlay =  currentPlayer.selectCardToPlay();
+            UnoCard cardToPlay =  currentPlayer.selectCardToPlay();  // flag while loop
         if (cardToPlay != null) {
             if (gameState.isCardValid(cardToPlay)) {
                 currentPlayer.playCard(cardToPlay);
