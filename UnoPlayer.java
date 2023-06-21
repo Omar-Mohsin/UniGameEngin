@@ -12,9 +12,9 @@ public class UnoPlayer{
         playerHand = new ArrayList<>();
     }
 
-    public void sayUno() {
+    public void sayUno(UnoPlayer player) {
         if (this.playerHand.size() == 1) {
-            System.out.println("Uno");
+            System.out.println( player.getPlayerName() + " : "+ "UNO");
         }
 
     }
@@ -52,6 +52,9 @@ public class UnoPlayer{
 
     public int getScore(){
         return score;
+    }
+    public void setScore(int score){
+        this.score += score;
     }
     public ArrayList<UnoCard> getHand() {
         return playerHand;

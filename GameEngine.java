@@ -16,7 +16,7 @@ public class GameEngine {
        deck = new Deck();
         gameState = new GameState();
     }
-    public void run() {
+    public void play() {
         initialize();
         boolean gameEnd = false;
         Scanner scanner = new Scanner(System.in);
@@ -26,16 +26,20 @@ public class GameEngine {
             UnoPlayer currentPlayer = players.get(currentPlayerIndex);
 
             System.out.println("Player " + currentPlayer.playerName + "'s turn");
-            System.out.println("Enter your command: ");
+            System.out.println("Enter your command: "  + "Enter \"play\" to play one of your cards OR \"draw\"  to draw a card");
             String input = scanner.nextLine();
 
             processInput(currentPlayer, input);
-
-
+            for (UnoPlayer player : players){
+               player.sayUno(player);
+            }
 
             if (currentPlayer.isWon()) {
                 System.out.println("Player " + currentPlayer.getPlayerName() + " wins!");
                 gameEnd = true;
+                for (UnoPlayer player : players){
+                    calculateScore(player);
+                }
             } else if (deck.isEmpty() && currentPlayer.playerHand.isEmpty()) {
                 System.out.println("Game over. It's a draw!");
                 gameEnd = true;
@@ -43,6 +47,7 @@ public class GameEngine {
 
             currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
         }
+        endGame();
     }
 
     void initialize() {
@@ -117,7 +122,7 @@ public class GameEngine {
         }
 
         // Determine the winner
-        UnoPlayer winner = null;
+        UnoPlayer winner = players.get(0) ;
         int maxScore = 0;
         for (UnoPlayer player : players) {
             if (player.getScore() > maxScore) {
@@ -133,7 +138,7 @@ public class GameEngine {
     private int calculateScore(UnoPlayer player) {
         int score = 0;
         for (UnoCard card : player.getHand()) {
-            score += getCardValue(card);
+            player.setScore(getCardValue(card));
         }
         return score;
     }

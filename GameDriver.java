@@ -9,7 +9,7 @@ public class GameDriver {
 
 
 
-        gameEngine.run();
+        gameEngine.play();
 
     }
 

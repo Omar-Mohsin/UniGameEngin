@@ -32,8 +32,8 @@ public class Deck {
             }
         }
             for (int i = 0; i < 4; i++) {
-                cards[cardsInDeck++] = new WildCard(UnoCard.Wild.wild);
-                cards[cardsInDeck++] = new WildCard(UnoCard.Wild.wild_draw_four);
+                cards[cardsInDeck++] = new UnoCard(UnoCard.Wild.wild);
+                cards[cardsInDeck++] = new UnoCard(UnoCard.Wild.wild_draw_four);
 
             }
 
