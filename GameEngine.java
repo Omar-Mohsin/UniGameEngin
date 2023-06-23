@@ -1,11 +1,9 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
 public class GameEngine {
     private List<UnoPlayer> players;
-
     private int currentPlayerIndex;
     private Deck deck;
     private GameState gameState;
@@ -24,16 +22,12 @@ public class GameEngine {
         while (!gameEnd) {
             render();
             UnoPlayer currentPlayer = players.get(currentPlayerIndex);
-
-            System.out.println("Player " + currentPlayer.playerName + "'s turn");
             System.out.println("Enter your command: "  + "Enter \"play\" to play one of your cards OR \"draw\"  to draw a card");
             String input = scanner.nextLine();
-
             processInput(currentPlayer, input);
             for (UnoPlayer player : players){
                player.sayUno(player);
             }
-
             if (currentPlayer.isWon()) {
                 System.out.println("Player " + currentPlayer.getPlayerName() + " wins!");
                 gameEnd = true;
@@ -44,7 +38,6 @@ public class GameEngine {
                 System.out.println("Game over. It's a draw!");
                 gameEnd = true;
             }
-
             currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
         }
         endGame();
@@ -52,7 +45,6 @@ public class GameEngine {
 
     void initialize() {
         System.out.println("Welcome to the Uno game!");
-
         Scanner input = new Scanner(System.in);
         System.out.println("Enter Number of Player");
         int numberOfPlayer = input.nextInt();
@@ -62,6 +54,7 @@ public class GameEngine {
         System.out.println(deck);
         deck.shuffle();
         dealCards();
+        gameState=new GameState();//initalize game state
     }
     private void dealCards() {
         for (UnoPlayer player : players) {
@@ -74,20 +67,18 @@ public class GameEngine {
 
     private void render() {
         System.out.println("--------------------------------------------------");
-        for (UnoPlayer player : players) {
-            System.out.println("Player: " + player.getPlayerName());
-            System.out.println("Hand: " + player.playerHand);
-            System.out.println();
-        }
-        System.out.println("Deck: " + deck);
-        System.out.println("--------------------------------------------------");
+        UnoPlayer currentPlayer=players.get(currentPlayerIndex);
+        String currentPlayerName=currentPlayer.getPlayerName();
+            System.out.println(currentPlayerName+"'s Turn");
+            System.out.println(currentPlayerName+ "'s Hand: " + currentPlayer.playerHand);
+        System.out.println("Current Card :  " +(gameState.getCurrentCard()==null?"none":gameState.getCurrentCard()));
     }
 
     private void processInput(UnoPlayer currentPlayer, String input) {
         if (input.equalsIgnoreCase("play")) {
             playCard(currentPlayer);
         } else if (input.equalsIgnoreCase("draw")) {
-            drawCard(currentPlayer ,1 );
+            drawCard(currentPlayer);
         } else {
             System.out.println("Invalid command. Try again.");
         }
@@ -98,20 +89,13 @@ public class GameEngine {
         boolean flag = true;
         while(flag) {
             UnoCard cardToPlay = currentPlayer.selectCardToPlay();  // flag while loop
-            gameState = new GameState(cardToPlay);
             if (cardToPlay != null) {
                 if (gameState.isCardValid(cardToPlay)) {
                     currentPlayer.playCard(cardToPlay);
                     gameState.setCurrentCard(cardToPlay);
                     gameState.setCurrentColor(cardToPlay.getColor());
-                    if (cardToPlay.equals(UnoCard.Action.draw_two)) {
-                        UnoPlayer nextPlayer = getNextPlayer(currentPlayer);
-
-
-                        drawCard(nextPlayer, 2);
-                        System.out.println(nextPlayer.getPlayerName() + " drew 2 cards.");
-                    }
                     System.out.println("Player " + currentPlayer.getPlayerName() + " throw a card: " + cardToPlay);
+                    flag=false;
                 } else {
                     System.out.println("Invalid card. Try again.");
                 }
@@ -121,12 +105,12 @@ public class GameEngine {
         }
     }
 
-    private void drawCard(UnoPlayer currentPlayer, int numberOfCard ) {
+    private void drawCard(UnoPlayer currentPlayer) {
         UnoCard drawnCard = deck.drawCard();
         currentPlayer.drawCard(drawnCard);
         System.out.println("Player " + currentPlayer.getPlayerName() + " drew a card: " + drawnCard);
     }
-    private UnoPlayer getNextPlayer(UnoPlayer currentPlayer) {
+    public UnoPlayer getNextPlayer(UnoPlayer currentPlayer) {
         int currentPlayerIndex = players.indexOf(currentPlayer);
         int nextPlayerIndex = (currentPlayerIndex + 1) % players.size();
         return players.get(nextPlayerIndex);

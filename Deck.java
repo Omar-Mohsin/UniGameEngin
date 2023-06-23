@@ -12,28 +12,28 @@ public class Deck {
     }
 
     public void initializeDeck () {
-        UnoCard.Color[] colors =  UnoCard.Color.values();
+        Color[] colors =  Color.values();
         cardsInDeck = 0;
 
         for (int i = 0; i < colors.length; i++) {
-            UnoCard.Color color = UnoCard.Color.getColors(i);
+            Color color = Color.getColors(i);
 
-            cards[cardsInDeck++] = new UnoCard(color, UnoCard.Value.zero);
+            cards[cardsInDeck++] = new UnoCard(color, Value.zero);
 
             for (int j = 1; j < 10; j++) {
-                cards[cardsInDeck++] = new UnoCard(color, UnoCard.Value.getValues(j));
-                cards[cardsInDeck++] = new UnoCard(color, UnoCard.Value.getValues(j));
+                cards[cardsInDeck++] = new UnoCard(color, Value.getValues(j));
+                cards[cardsInDeck++] = new UnoCard(color, Value.getValues(j));
             }
             for (int j =0; j <3;j++){
-                cards[cardsInDeck++] = new UnoCard(color, UnoCard.Action.getActions(j));
+                cards[cardsInDeck++] = new UnoCard(color, Action.getActions(j));
 
-                cards[cardsInDeck++] = new UnoCard(color, UnoCard.Action.getActions(j));
+                cards[cardsInDeck++] = new UnoCard(color, Action.getActions(j));
 
             }
         }
             for (int i = 0; i < 4; i++) {
-                cards[cardsInDeck++] = new UnoCard(UnoCard.Wild.wild);
-                cards[cardsInDeck++] = new UnoCard(UnoCard.Wild.wild_draw_four);
+                cards[cardsInDeck++] = new UnoCard(Wild.wild);
+                cards[cardsInDeck++] = new UnoCard(Wild.wild_draw_four);
 
             }
 

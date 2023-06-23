@@ -3,13 +3,12 @@ import java.util.List;
 
 public class GameState {
     private UnoCard currentCard;
-    private UnoCard.Color currentColor;
+    private Color currentColor;
     private List<UnoCard> discardedCards;
 
 
-    public GameState(UnoCard card) {
+    public GameState() {
         discardedCards = new ArrayList<>();
-        currentCard = card;
     }
 
 
@@ -25,17 +24,18 @@ public class GameState {
         currentCard = card;
     }
 
-    public UnoCard.Color getCurrentColor() {
+    public Color getCurrentColor() {
         return currentColor;
     }
 
-    public void setCurrentColor(UnoCard.Color color) {
+    public void setCurrentColor(Color color) {
         currentColor = color;
     }
-
     public boolean isCardValid(UnoCard card) {
+        if(currentCard==null)return true; // when it's the first card
         return card.getColor().equals(currentColor) || card.getValue().equals(currentCard.getValue());
     }
-
 }
+
+
 

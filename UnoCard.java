@@ -1,7 +1,6 @@
 import java.util.Objects;
 
 public class UnoCard {
-
         public UnoCard(Color color, Action action) {
             this.color =  color;
             this.action = action ;
@@ -9,71 +8,23 @@ public class UnoCard {
         public UnoCard(Wild wild){
             this.wild = wild;
         }
-
-        enum Color {
-            red, blue , green, yellow;
-
-            private static Color[] colors = Color.values();
-
-            public static Color getColors(int i) {
-                return colors[i];
-            }
-
-        }
-        enum Value {
-            zero, one, two, three, four, five, six, seven, eight, nine;
-
-            private static Value[] values = Value.values();
-
-            public static Value getValues(int i) {
-                return values[i];
-            }
-        }
-        enum Wild{
-            wild, wild_draw_four;
-            private static Wild[] wilds = Wild.values();
-
-            public static Wild getWild(int i) {
-                return wilds[i];
-            }
-        }
-        enum Action{
-            skip , reverse , draw_two;
-            private static Action[] actions = Action.values();
-
-
-            public static Action getActions(int i) {
-                return actions[i];
-            }
-        }
-
-        protected   Color color;
-        protected   Value value;
+        protected Color color;
+        protected Value value;
         protected Action action;
         protected Wild  wild;
         public UnoCard(Color color, Value value) {
             this.color = color;
             this.value = value;
         }
-        public UnoCard(CardPlayStrategy playStrategy) {
-            this.playStrategy = playStrategy;
-        }
-        public void play(UnoPlayer player) {
-            playStrategy.playCard(player, this);
-        }
-        private CardPlayStrategy playStrategy;
-
-
-
-        public UnoCard.Color getColor(){
+        public Color getColor(){
             return this.color;
         }
 
 
-        public UnoCard.Value getValue(){
+        public Value getValue(){
             return this.value;
         }
-        public UnoCard.Wild getWild() {
+        public Wild getWild() {
             return this.wild;
         }
 
@@ -111,12 +62,12 @@ public class UnoCard {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UnoCard unoCard = (UnoCard) o;
-        return color == unoCard.color && value == unoCard.value && action == unoCard.action && wild == unoCard.wild && Objects.equals(playStrategy, unoCard.playStrategy);
+        return color == unoCard.color && value == unoCard.value && action == unoCard.action && wild == unoCard.wild;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(color, value, action, wild, playStrategy);
+        return Objects.hash(color, value, action, wild);
     }
 }
 
