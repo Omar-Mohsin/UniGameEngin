@@ -139,7 +139,7 @@ public class UnoGame extends Game{
             }
         }
     }
-    public void setCardColor(UnoCard.Color color){
+    public void setCardColor(UnoCard.ENUMS.Color color){
         validColor = color;
     }*//*
 

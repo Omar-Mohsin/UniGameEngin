@@ -1,26 +1,43 @@
+import ENUMS.Color;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class GameState {
-    private UnoCard currentCard;
+    private UnoCardStrategy currentCard1;
+    private UnoCardStrategy currentCard;
+    private List<UnoPlayer> players;
+    private UnoPlayer currentPlayer;
+    private  int currentPlayerIndex;
     private Color currentColor;
-    private List<UnoCard> discardedCards;
 
 
-    public GameState() {
+    private List<UnoCardStrategy> discardedCards;
+    private static volatile GameState instance;
+
+    private GameState() {
         discardedCards = new ArrayList<>();
+
     }
 
 
-    public void discardCard(UnoCard card) {
+    public void discardCard(UnoCardStrategy card) {
         discardedCards.add(card);
     }
 
-    public UnoCard getCurrentCard() {
+    public UnoCardStrategy getCurrentCard1() {
+        return currentCard1;
+    }
+
+    public void setCurrentCard1(UnoCardStrategy currentCard1) {
+        this.currentCard1 = currentCard1;
+    }
+
+    public UnoCardStrategy getCurrentCard() {
         return currentCard;
     }
 
-    public void setCurrentCard(UnoCard card) {
+    public void setCurrentCard(UnoCardStrategy card) {
         currentCard = card;
     }
 
@@ -31,10 +48,37 @@ public class GameState {
     public void setCurrentColor(Color color) {
         currentColor = color;
     }
-    public boolean isCardValid(UnoCard card) {
-        if(currentCard==null)return true; // when it's the first card
-        return card.getColor().equals(currentColor) || card.getValue().equals(currentCard.getValue());
+
+    public static GameState getInstance() {
+        GameState result = instance;
+        if (result != null) {
+            return result;
+        }
+        synchronized (GameState.class) {
+            if (instance == null) {
+                instance = new GameState();
+            }
+            return instance;
+        }
     }
+    public void getInt(List<UnoPlayer> players  ){
+
+        this.players = players;
+    }
+    public UnoPlayer getNextPlayer(UnoPlayer currentPlayer) {
+        int currentPlayerIndex = players.indexOf(currentPlayer);
+        int nextPlayerIndex = (currentPlayerIndex + 1) % players.size();
+        return players.get(nextPlayerIndex);
+    }
+    public void setCurrentPlayer(UnoPlayer currentPlayer){
+        this.currentPlayer = currentPlayer;
+    }
+    public UnoPlayer getCurrentPlayer(){
+      return currentPlayer;
+
+    }
+
+
 }
 
 

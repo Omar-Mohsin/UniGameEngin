@@ -1,4 +1,6 @@
- enum Wild{
+package ENUMS;
+
+public enum Wild{
             wild, wild_draw_four;
             private static Wild[] wilds = Wild.values();
 

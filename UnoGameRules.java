@@ -25,13 +25,13 @@ public class UnoGameRules {
 
 
     public void movement() {
-        if (card.getValue() == UnoCard.Value.wild) {
+        if (card.getValue() == UnoCard.ENUMS.Value.wild) {
 
         }
-        if (card.getValue() == UnoCard.Value.wild_draw_four || card.getValue() == UnoCard.Value.draw_two) {
+        if (card.getValue() == UnoCard.ENUMS.Value.wild_draw_four || card.getValue() == UnoCard.ENUMS.Value.draw_two) {
 
         }
-        if (card.getValue() == UnoCard.Value.skip) {
+        if (card.getValue() == UnoCard.ENUMS.Value.skip) {
             if (gameDirection == false) {
                 currentPlayer = (currentPlayer + 1) % players.size();
             } else {
@@ -42,7 +42,7 @@ public class UnoGameRules {
             }
         }
 
-        if (card.getValue() == UnoCard.Value.reverse) {
+        if (card.getValue() == UnoCard.ENUMS.Value.reverse) {
             System.out.println(playersName.get(currentPlayer) + "the game direction changed");
             gameDirection ^= true; //  doing a xor
             currentPlayer = players.size() - 1;

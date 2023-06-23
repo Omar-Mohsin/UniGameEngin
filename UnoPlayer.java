@@ -4,7 +4,7 @@ import java.util.Scanner;
 public class UnoPlayer{
 
     String playerName;
-    ArrayList<UnoCard> playerHand;
+    ArrayList<UnoCardStrategy> playerHand;
     private int score;
     public UnoPlayer(String playerName) {
         score = 0;
@@ -18,11 +18,11 @@ public class UnoPlayer{
         }
 
     }
-    public void playCard(UnoCard card) {
+    public void playCard(UnoCardStrategy card) {
         playerHand.remove(card);
     }
 
-    public UnoCard selectCardToPlay() {
+    public UnoCardStrategy selectCardToPlay() {
         System.out.println("Select a card to play (enter the index number):");
         for (int i = 0; i < playerHand.size(); i++) {
             System.out.println(i + ": " + playerHand.get(i));
@@ -42,7 +42,7 @@ public class UnoPlayer{
         return index >= 0 && index < playerHand.size();
     }
 
-    public void drawCard(UnoCard card) {
+    public void drawCard(UnoCardStrategy card) {
         playerHand.add(card);
     }
 
@@ -56,7 +56,7 @@ public class UnoPlayer{
     public void setScore(int score){
         this.score += score;
     }
-    public ArrayList<UnoCard> getHand() {
+    public ArrayList<UnoCardStrategy> getHand() {
         return playerHand;
     }
 

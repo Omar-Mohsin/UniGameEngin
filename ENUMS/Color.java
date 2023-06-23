@@ -1,4 +1,6 @@
-enum Color {
+package ENUMS;
+
+public enum Color {
             red, blue , green, yellow;
 
             private static Color[] colors = Color.values();

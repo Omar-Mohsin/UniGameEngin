@@ -7,7 +7,6 @@ public class GameEngine {
     private int currentPlayerIndex;
     private Deck deck;
     private GameState gameState;
-
     public GameEngine() {
         players = new ArrayList<>();
         currentPlayerIndex = 0;
@@ -28,6 +27,7 @@ public class GameEngine {
             for (UnoPlayer player : players){
                player.sayUno(player);
             }
+
             if (currentPlayer.isWon()) {
                 System.out.println("Player " + currentPlayer.getPlayerName() + " wins!");
                 gameEnd = true;
@@ -54,12 +54,13 @@ public class GameEngine {
         System.out.println(deck);
         deck.shuffle();
         dealCards();
-        gameState=new GameState();//initalize game state
+        gameState=GameState.getInstance();//initalize game state
+        gameState.getInt(players);
     }
     private void dealCards() {
         for (UnoPlayer player : players) {
             for (int i = 0; i < 7; i++) {
-                UnoCard card = deck.drawCard();
+                UnoCardStrategy card = deck.drawCard();
                 player.drawCard(card);
             }
         }
@@ -85,35 +86,25 @@ public class GameEngine {
     }
 
     private void playCard(UnoPlayer currentPlayer) {
-
         boolean flag = true;
         while(flag) {
-            UnoCard cardToPlay = currentPlayer.selectCardToPlay();  // flag while loop
-            if (cardToPlay != null) {
-                if (gameState.isCardValid(cardToPlay)) {
-                    currentPlayer.playCard(cardToPlay);
-                    gameState.setCurrentCard(cardToPlay);
-                    gameState.setCurrentColor(cardToPlay.getColor());
-                    System.out.println("Player " + currentPlayer.getPlayerName() + " throw a card: " + cardToPlay);
-                    flag=false;
-                } else {
-                    System.out.println("Invalid card. Try again.");
-                }
+            UnoCardStrategy cardToPlay = currentPlayer.selectCardToPlay();  // flag while loop
+            boolean isValidMove=cardToPlay.execute();
+            if (isValidMove) {
+                currentPlayer.playCard(cardToPlay);
+                gameState.setCurrentCard(cardToPlay);
+                System.out.println("Player " + currentPlayer.getPlayerName() + " throw a card: " + cardToPlay);
+                flag=false;
             } else {
-                System.out.println("No valid cards in hand. Draw a card or pass.");
+                System.out.println("Invalid card. Try again.");
             }
         }
     }
 
     private void drawCard(UnoPlayer currentPlayer) {
-        UnoCard drawnCard = deck.drawCard();
+        UnoCardStrategy drawnCard = deck.drawCard();
         currentPlayer.drawCard(drawnCard);
         System.out.println("Player " + currentPlayer.getPlayerName() + " drew a card: " + drawnCard);
-    }
-    public UnoPlayer getNextPlayer(UnoPlayer currentPlayer) {
-        int currentPlayerIndex = players.indexOf(currentPlayer);
-        int nextPlayerIndex = (currentPlayerIndex + 1) % players.size();
-        return players.get(nextPlayerIndex);
     }
 
     private void endGame() {
@@ -139,18 +130,18 @@ public class GameEngine {
     }
     private int calculateScore(UnoPlayer player) {
         int score = 0;
-        for (UnoCard card : player.getHand()) {
+        for (UnoCardStrategy card : player.getHand()) {
             player.setScore(getCardValue(card));
         }
         return score;
     }
-    private int getCardValue(UnoCard card) {
+    private int getCardValue(UnoCardStrategy card) {
      return 10;
     }
 
     private void drawCardsNextPlayer(UnoPlayer player, int numCards) {
         for (int i = 0; i < numCards; i++) {
-            UnoCard drawnCard = deck.drawCard();
+            UnoCardStrategy drawnCard = deck.drawCard();
             if (drawnCard != null) {
                 player.drawCard(drawnCard);
             } else {
