@@ -87,35 +87,41 @@ public class GameEngine {
         if (input.equalsIgnoreCase("play")) {
             playCard(currentPlayer);
         } else if (input.equalsIgnoreCase("draw")) {
-            drawCard(currentPlayer);
+            drawCard(currentPlayer ,1 );
         } else {
             System.out.println("Invalid command. Try again.");
         }
     }
 
     private void playCard(UnoPlayer currentPlayer) {
-            UnoCard cardToPlay =  currentPlayer.selectCardToPlay();  // flag while loop
+
+        boolean flag = true;
+        while(flag) {
+            UnoCard cardToPlay = currentPlayer.selectCardToPlay();  // flag while loop
             gameState = new GameState(cardToPlay);
-        if (cardToPlay != null) {
-            if (gameState.isCardValid(cardToPlay)) {
-                currentPlayer.playCard(cardToPlay);
-                gameState.setCurrentCard(cardToPlay);
-                gameState.setCurrentColor(cardToPlay.getColor());
-                if(UnoCard.Action.draw_two.equals(cardToPlay)){
-                    UnoPlayer nextPlayer = getNextPlayer(currentPlayer);
-                    drawCardsFromDeck(nextPlayer, 2);
-                    System.out.println(nextPlayer.getPlayerName() + " drew 2 cards.");
+            if (cardToPlay != null) {
+                if (gameState.isCardValid(cardToPlay)) {
+                    currentPlayer.playCard(cardToPlay);
+                    gameState.setCurrentCard(cardToPlay);
+                    gameState.setCurrentColor(cardToPlay.getColor());
+                    if (cardToPlay.equals(UnoCard.Action.draw_two)) {
+                        UnoPlayer nextPlayer = getNextPlayer(currentPlayer);
+
+
+                        drawCard(nextPlayer, 2);
+                        System.out.println(nextPlayer.getPlayerName() + " drew 2 cards.");
+                    }
+                    System.out.println("Player " + currentPlayer.getPlayerName() + " throw a card: " + cardToPlay);
+                } else {
+                    System.out.println("Invalid card. Try again.");
                 }
-                System.out.println("Player " + currentPlayer.getPlayerName() + " throw a card: " + cardToPlay);
             } else {
-                System.out.println("Invalid card. Try again.");
+                System.out.println("No valid cards in hand. Draw a card or pass.");
             }
-        } else {
-            System.out.println("No valid cards in hand. Draw a card or pass.");
         }
     }
 
-    private void drawCard(UnoPlayer currentPlayer) {
+    private void drawCard(UnoPlayer currentPlayer, int numberOfCard ) {
         UnoCard drawnCard = deck.drawCard();
         currentPlayer.drawCard(drawnCard);
         System.out.println("Player " + currentPlayer.getPlayerName() + " drew a card: " + drawnCard);
@@ -158,7 +164,7 @@ public class GameEngine {
      return 10;
     }
 
-    private void drawCardsFromDeck(UnoPlayer player, int numCards) {
+    private void drawCardsNextPlayer(UnoPlayer player, int numCards) {
         for (int i = 0; i < numCards; i++) {
             UnoCard drawnCard = deck.drawCard();
             if (drawnCard != null) {

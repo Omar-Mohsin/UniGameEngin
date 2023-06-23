@@ -83,6 +83,21 @@ public class Deck {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Deck deck = (Deck) o;
+        return cardsInDeck == deck.cardsInDeck && Arrays.equals(cards, deck.cards);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(cardsInDeck);
+        result = 31 * result + Arrays.hashCode(cards);
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "Deck{" +
                 "cards=" + Arrays.toString(cards) +
