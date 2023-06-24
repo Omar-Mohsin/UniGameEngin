@@ -63,7 +63,8 @@ public class GameState {
     public UnoPlayer getNextPlayer() {
         int currentPlayerIndex = players.indexOf(currentPlayer);
         int nextPlayerIndex = (currentPlayerIndex + 1) % players.size();
-        return players.get(nextPlayerIndex);
+        currentPlayer =  players.get(nextPlayerIndex);
+        return currentPlayer;
     }
     public void setCurrentPlayer(UnoPlayer currentPlayer){
         this.currentPlayer = currentPlayer;
