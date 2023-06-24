@@ -23,20 +23,25 @@ public class UnoPlayer{
     }
 
     public UnoCardStrategy selectCardToPlay() {
-        System.out.println("Select a card to play (enter the index number):");
-        for (int i = 0; i < playerHand.size(); i++) {
-            System.out.println(i + ": " + playerHand.get(i));
-        }
-        Scanner scanner = new Scanner(System.in);
-        int index = scanner.nextInt();
-        scanner.nextLine();
+        boolean flag = true;
+        while (flag) {
+            System.out.println("Select a card to play (enter the index number):");
+            for (int i = 0; i < playerHand.size(); i++) {
+                System.out.println(i + ": " + playerHand.get(i));
+            }
+            Scanner scanner = new Scanner(System.in);
+            int index = scanner.nextInt();
+            scanner.nextLine();
 
-        if (inRange(index)) {
-            return playerHand.get(index);
-        } else {
-            System.out.println("Invalid card index. Try again.");
-            return null;
+            if (inRange(index)) {
+                flag = false;
+                return playerHand.get(index);
+            } else {
+                System.out.println("Invalid card index. Try again.");
+
+            }
         }
+        return null;
     }
     public boolean inRange(int index){
         return index >= 0 && index < playerHand.size();

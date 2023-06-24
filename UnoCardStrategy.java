@@ -5,7 +5,7 @@ public abstract class UnoCardStrategy {
     }
     abstract boolean execute();
     public boolean isSameValue() {
-        UnoCardStrategy currentCard= GameState.getInstance().getCurrentCard1();
+        UnoCardStrategy currentCard= GameState.getInstance().getCurrentCard();
         if(currentCard==null)return true; // when it's the first card
         return currentCard.getValue().equals(value);
     }

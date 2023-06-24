@@ -10,7 +10,7 @@ public class GameEngine {
     public GameEngine() {
         players = new ArrayList<>();
         currentPlayerIndex = 0;
-       deck = new Deck();
+       deck = Deck.getInstance();
 
     }
     public void play() {
@@ -93,6 +93,7 @@ public class GameEngine {
             if (isValidMove) {
                 currentPlayer.playCard(cardToPlay);
                 gameState.setCurrentCard(cardToPlay);
+
                 System.out.println("Player " + currentPlayer.getPlayerName() + " throw a card: " + cardToPlay);
                 flag=false;
             } else {
@@ -139,17 +140,7 @@ public class GameEngine {
      return 10;
     }
 
-    private void drawCardsNextPlayer(UnoPlayer player, int numCards) {
-        for (int i = 0; i < numCards; i++) {
-            UnoCardStrategy drawnCard = deck.drawCard();
-            if (drawnCard != null) {
-                player.drawCard(drawnCard);
-            } else {
-                System.out.println("No more cards in the deck!");
-                break;
-            }
-        }
-    }
+
 
 
 

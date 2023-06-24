@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameState {
-    private UnoCardStrategy currentCard1;
+
     private UnoCardStrategy currentCard;
     private List<UnoPlayer> players;
     private UnoPlayer currentPlayer;
-    private  int currentPlayerIndex;
     private Color currentColor;
+    private Deck deck;
 
 
     private List<UnoCardStrategy> discardedCards;
@@ -17,6 +17,7 @@ public class GameState {
 
     private GameState() {
         discardedCards = new ArrayList<>();
+        deck = Deck.getInstance();
 
     }
 
@@ -25,13 +26,7 @@ public class GameState {
         discardedCards.add(card);
     }
 
-    public UnoCardStrategy getCurrentCard1() {
-        return currentCard1;
-    }
 
-    public void setCurrentCard1(UnoCardStrategy currentCard1) {
-        this.currentCard1 = currentCard1;
-    }
 
     public UnoCardStrategy getCurrentCard() {
         return currentCard;
@@ -65,7 +60,7 @@ public class GameState {
 
         this.players = players;
     }
-    public UnoPlayer getNextPlayer(UnoPlayer currentPlayer) {
+    public UnoPlayer getNextPlayer() {
         int currentPlayerIndex = players.indexOf(currentPlayer);
         int nextPlayerIndex = (currentPlayerIndex + 1) % players.size();
         return players.get(nextPlayerIndex);
@@ -76,6 +71,17 @@ public class GameState {
     public UnoPlayer getCurrentPlayer(){
       return currentPlayer;
 
+    }
+    public void drawCardsNextPlayer( int numCards) {
+        for (int i = 0; i < numCards; i++) {
+            UnoCardStrategy drawnCard = deck.drawCard();
+            if (drawnCard != null) {
+                getNextPlayer().drawCard(drawnCard);
+            } else {
+                System.out.println("No more cards in the deck!");
+                break;
+            }
+        }
     }
 
 

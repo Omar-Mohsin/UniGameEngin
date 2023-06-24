@@ -11,9 +11,24 @@ public class Deck {
 
     private UnoCardStrategy[] cards;
     private int cardsInDeck;
+    private static volatile Deck instance;
 
-    public Deck() {
+
+    private Deck() {
+
         cards = new UnoCardStrategy[108];
+    }
+    public static Deck getInstance() {
+        Deck result = instance;
+        if (result != null) {
+            return result;
+        }
+        synchronized (Deck.class) {
+            if (instance == null) {
+                instance = new Deck();
+            }
+            return instance;
+        }
     }
 
     public void initializeDeck () {
