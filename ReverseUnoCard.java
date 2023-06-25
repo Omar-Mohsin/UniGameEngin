@@ -9,11 +9,16 @@ public class ReverseUnoCard extends ColoredUnoCard {
     @Override
     boolean execute() {
 
-
+        GameState  gameState=   GameState.getInstance();
+        UnoPlayer nextPlayer = gameState.getNextPlayer();
         boolean isValidMove=isSameValue() || isSameColor();
         if(!isValidMove)return false;
-       /* GameState.getInstance().getNextPlayer();*/
+        System.out.println( " the game direction is changed ");
+
+
         return true;
+
+
     }
 
 

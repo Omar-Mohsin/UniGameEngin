@@ -8,8 +8,9 @@ public class GameState {
     private UnoCardStrategy currentCard;
     private List<UnoPlayer> players;
     private UnoPlayer currentPlayer;
+    private int currentPlayerIndex;
     private Color currentColor;
-    private Deck deck;
+    private final Deck deck;
 
 
     private List<UnoCardStrategy> discardedCards;
@@ -25,7 +26,6 @@ public class GameState {
     public void discardCard(UnoCardStrategy card) {
         discardedCards.add(card);
     }
-
 
 
     public UnoCardStrategy getCurrentCard() {
@@ -56,24 +56,35 @@ public class GameState {
             return instance;
         }
     }
-    public void getInt(List<UnoPlayer> players  ){
+
+    public void setCurrentPlayerIndex(int currentPlayerIndex){
+        this.currentPlayerIndex = currentPlayerIndex;
+    }
+    public int getCurrentPlayerIndex(){
+     return currentPlayerIndex;
+    }
+    public void getPlayers(List<UnoPlayer> players) {
 
         this.players = players;
     }
+
     public UnoPlayer getNextPlayer() {
-        int currentPlayerIndex = players.indexOf(currentPlayer);
+        int currentPlayerIndex = players.indexOf(getCurrentPlayer());
         int nextPlayerIndex = (currentPlayerIndex + 1) % players.size();
-        currentPlayer =  players.get(nextPlayerIndex);
+     currentPlayer = players.get(nextPlayerIndex);
         return currentPlayer;
     }
-    public void setCurrentPlayer(UnoPlayer currentPlayer){
+
+    public void setCurrentPlayer(UnoPlayer currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
-    public UnoPlayer getCurrentPlayer(){
-      return currentPlayer;
+
+    public UnoPlayer getCurrentPlayer() {
+        return currentPlayer;
 
     }
-    public void drawCardsNextPlayer( int numCards) {
+
+    public void drawCardsNextPlayer(int numCards) {
         for (int i = 0; i < numCards; i++) {
             UnoCardStrategy drawnCard = deck.drawCard();
             if (drawnCard != null) {
@@ -84,9 +95,14 @@ public class GameState {
             }
         }
     }
+    public void skipNextPlayer() {
 
+     currentPlayer = getNextPlayer();
+    }
 
 }
+
+
 
 
 

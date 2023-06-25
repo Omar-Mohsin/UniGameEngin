@@ -1,3 +1,5 @@
+import ENUMS.Color;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -67,6 +69,32 @@ public class UnoPlayer{
 
     public boolean isWon(){
         return playerHand.size() ==0;
+    }
+
+    public Color chooseColor(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Choose a color:");
+        System.out.println("1. Red");
+        System.out.println("2. Blue");
+        System.out.println("3. Green");
+        System.out.println("4. Yellow");
+
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+
+        switch (choice) {
+            case 1:
+                return Color.red;
+            case 2:
+                return Color.blue;
+            case 3:
+                return Color.green;
+            case 4:
+                return Color.yellow;
+            default:
+                System.out.println("Invalid choice. Defaulting to Red.");
+                return Color.red;
+        }
     }
 
 }

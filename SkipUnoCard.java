@@ -8,6 +8,14 @@ public class SkipUnoCard extends ColoredUnoCard {
 
     @Override
     boolean execute() {
-        return false;
+       GameState  gameState=   GameState.getInstance();
+        UnoPlayer nextPlayer = gameState.getNextPlayer();
+        boolean isValidMove=isSameValue() || isSameColor();
+        if(!isValidMove)return false;
+        gameState.skipNextPlayer();
+        System.out.println( gameState.getCurrentPlayer().playerName+ " skipped");
+
+
+        return true;
     }
 }

@@ -17,10 +17,10 @@ public class GameEngine {
         initialize();
         boolean gameEnd = false;
         Scanner scanner = new Scanner(System.in);
-
+         GameState gameState = GameState.getInstance();
         while (!gameEnd) {
             render();
-            UnoPlayer currentPlayer = players.get(currentPlayerIndex);
+            UnoPlayer currentPlayer = players.get(gameState.getCurrentPlayerIndex());
             System.out.println("Enter your command: "  + "Enter \"play\" to play one of your cards OR \"draw\"  to draw a card");
             String input = scanner.nextLine();
             processInput(currentPlayer, input);
@@ -39,6 +39,7 @@ public class GameEngine {
                 gameEnd = true;
             }
             currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+            gameState.setCurrentPlayerIndex(currentPlayerIndex);
         }
         endGame();
     }
@@ -55,7 +56,7 @@ public class GameEngine {
         deck.shuffle();
         dealCards();
         gameState=GameState.getInstance();//initalize game state
-        gameState.getInt(players);
+        gameState.getPlayers(players);
     }
     private void dealCards() {
         for (UnoPlayer player : players) {
@@ -67,8 +68,9 @@ public class GameEngine {
     }
 
     private void render() {
+        GameState gameState = GameState.getInstance();
         System.out.println("--------------------------------------------------");
-        UnoPlayer currentPlayer=players.get(currentPlayerIndex);
+        UnoPlayer currentPlayer=players.get(gameState.getCurrentPlayerIndex());
         String currentPlayerName=currentPlayer.getPlayerName();
             System.out.println(currentPlayerName+"'s Turn");
             System.out.println(currentPlayerName+ "'s Hand: " + currentPlayer.playerHand);
@@ -86,6 +88,7 @@ public class GameEngine {
     }
 
     private void playCard(UnoPlayer currentPlayer) {
+
         boolean flag = true;
         while(flag) {
             UnoCardStrategy cardToPlay = currentPlayer.selectCardToPlay();  // flag while loop
@@ -117,10 +120,10 @@ public class GameEngine {
 
         // Determine the winner
         UnoPlayer winner = players.get(0) ;
-        int maxScore = 0;
+        int minScore = players.get(0).getScore();
         for (UnoPlayer player : players) {
-            if (player.getScore() > maxScore) {
-                maxScore = player.getScore();
+            if (player.getScore() < minScore) {
+                minScore = player.getScore();
                 winner = player;
             }
         }
